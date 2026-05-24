@@ -1,0 +1,516 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" id="campaign_strategy_definitions" name="CampaignStrategy" namespace="https://contentcreator/rules/campaign-strategy" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/">
+  <dmn:itemDefinition id="tBrief" name="tBrief">
+    <dmn:itemComponent id="tBrief_property_segment" name="property_segment">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tBrief_campaign_objective" name="campaign_objective">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tBrief_buyer_profile" name="buyer_profile">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tBrief_promotion_details" name="promotion_details">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tInsightContext" name="tInsightContext">
+    <dmn:itemComponent id="tInsight_summary" name="summary">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tInsight_source_backed_signal_count" name="source_backed_signal_count">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tInsight_unavailable_signal_count" name="unavailable_signal_count">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tStrategyOutput" name="tStrategyOutput">
+    <dmn:itemComponent id="tStrategy_rule_version" name="rule_version">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_recommended_objective" name="recommended_objective">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_recommended_cta" name="recommended_cta">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_kpi_expectation_band" name="kpi_expectation_band">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_approval_required" name="approval_required">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_segment_constraints" name="segment_constraints" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_rationale_notes" name="rationale_notes" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategy_planning_assumptions" name="planning_assumptions" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tConstraintNotes" name="tConstraintNotes">
+    <dmn:itemComponent id="tStrategyConstraintNotes_1" name="constraint_1">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategyConstraintNotes_2" name="constraint_2">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tStrategyConstraintNotes_3" name="constraint_3">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tRationaleNotes" name="tRationaleNotes">
+    <dmn:itemComponent id="tRationaleNote_1" name="note_1">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tRationaleNote_2" name="note_2">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tRationaleNote_3" name="note_3">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tPlanningAssumptionNotes" name="tPlanningAssumptionNotes">
+    <dmn:itemComponent id="tPlanningAssumption_1" name="assumption_1">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlanningAssumption_2" name="assumption_2">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decision id="recommended_objective_decision" name="Recommended Objective">
+    <dmn:variable id="recommended_objective_variable" name="Recommended Objective" typeRef="string" />
+    <dmn:informationRequirement id="_E2B21BB7-51ED-40E9-9E4A-D7C473DCB322">
+      <dmn:requiredInput href="#brief_input" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="recommended_objective_table" hitPolicy="FIRST">
+      <dmn:input id="recommended_objective_input">
+        <dmn:inputExpression id="recommended_objective_input_expression" typeRef="string">
+          <dmn:text>brief.campaign_objective</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="recommended_objective_output" />
+      <dmn:rule id="recommended_objective_rule_default">
+        <dmn:inputEntry id="recommended_objective_rule_default_input">
+          <dmn:text>null, &quot;&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="recommended_objective_rule_default_output">
+          <dmn:text>&quot;lead_generation&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="recommended_objective_rule_passthrough">
+        <dmn:inputEntry id="recommended_objective_rule_passthrough_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="recommended_objective_rule_passthrough_output">
+          <dmn:text>brief.campaign_objective</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="recommended_cta_decision" name="Recommended CTA">
+    <dmn:variable id="recommended_cta_variable" name="Recommended CTA" typeRef="string" />
+    <dmn:informationRequirement id="_762E41F1-D783-4A4E-8AAC-0CAECCBC440B">
+      <dmn:requiredInput href="#brief_input" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="recommended_cta_table" hitPolicy="FIRST">
+      <dmn:input id="recommended_cta_input">
+        <dmn:inputExpression id="recommended_cta_input_expression" typeRef="string">
+          <dmn:text>brief.promotion_details</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="recommended_cta_output" />
+      <dmn:rule id="recommended_cta_rule_promotion_missing">
+        <dmn:inputEntry id="recommended_cta_rule_promotion_missing_input">
+          <dmn:text>null, &quot;&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="recommended_cta_rule_promotion_missing_output">
+          <dmn:text>&quot;Register for consultation&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="recommended_cta_rule_promotion_present">
+        <dmn:inputEntry id="recommended_cta_rule_promotion_present_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="recommended_cta_rule_promotion_present_output">
+          <dmn:text>&quot;Book a consultation for offer details&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="kpi_expectation_band_decision" name="KPI Expectation Band">
+    <dmn:variable id="kpi_expectation_band_variable" name="KPI Expectation Band" typeRef="string" />
+    <dmn:informationRequirement id="_2364F1AA-AE23-499F-8D84-9C735F18A043">
+      <dmn:requiredInput href="#brief_input" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_0B1722E4-B4E3-4173-B5A4-5EE2C78A9788">
+      <dmn:requiredInput href="#insight_context_input" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="kpi_expectation_band_table" hitPolicy="FIRST">
+      <dmn:input id="kpi_expectation_band_input_objective">
+        <dmn:inputExpression id="kpi_expectation_band_input_objective_expression" typeRef="string">
+          <dmn:text>brief.campaign_objective</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="kpi_expectation_band_input_signal_count">
+        <dmn:inputExpression id="kpi_expectation_band_input_signal_count_expression" typeRef="number">
+          <dmn:text>insight_context.source_backed_signal_count</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="kpi_expectation_band_output" />
+      <dmn:rule id="kpi_expectation_band_rule_awareness">
+        <dmn:inputEntry id="kpi_expectation_band_rule_awareness_input_objective">
+          <dmn:text>&quot;awareness&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="kpi_expectation_band_rule_awareness_input_signal_count">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="kpi_expectation_band_rule_awareness_output">
+          <dmn:text>&quot;reach_engagement_medium&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="kpi_expectation_band_rule_high_signal">
+        <dmn:inputEntry id="kpi_expectation_band_rule_high_signal_input_objective">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="kpi_expectation_band_rule_high_signal_input_signal_count">
+          <dmn:text>&gt;= 3</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="kpi_expectation_band_rule_high_signal_output">
+          <dmn:text>&quot;lead_volume_medium&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="kpi_expectation_band_rule_cautious">
+        <dmn:inputEntry id="kpi_expectation_band_rule_cautious_input_objective">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="kpi_expectation_band_rule_cautious_input_signal_count">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="kpi_expectation_band_rule_cautious_output">
+          <dmn:text>&quot;lead_volume_cautious&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="approval_required_decision" name="Approval Required">
+    <dmn:variable id="approval_required_variable" name="Approval Required" typeRef="boolean" />
+    <dmn:informationRequirement id="_C632D1B0-9AAE-4504-9A18-10F09EA54164">
+      <dmn:requiredInput href="#insight_context_input" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="approval_required_table" hitPolicy="FIRST">
+      <dmn:input id="approval_required_input">
+        <dmn:inputExpression id="approval_required_input_expression" typeRef="number">
+          <dmn:text>insight_context.unavailable_signal_count</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="approval_required_output" />
+      <dmn:rule id="approval_required_rule_true">
+        <dmn:inputEntry id="approval_required_rule_true_input">
+          <dmn:text>&gt; 0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="approval_required_rule_true_output">
+          <dmn:text>true</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="approval_required_rule_false">
+        <dmn:inputEntry id="approval_required_rule_false_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="approval_required_rule_false_output">
+          <dmn:text>false</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="constraint_profile_decision" name="Constraint Profile">
+    <dmn:variable id="constraint_profile_variable" name="Constraint Profile" typeRef="string" />
+    <dmn:informationRequirement id="_1B17DF4B-F3D2-4A96-AA4E-411E08126876">
+      <dmn:requiredInput href="#brief_input" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="constraint_profile_table" hitPolicy="FIRST">
+      <dmn:input id="constraint_profile_input">
+        <dmn:inputExpression id="constraint_profile_input_expression" typeRef="string">
+          <dmn:text>brief.property_segment</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="constraint_profile_output" />
+      <dmn:rule id="constraint_profile_rule_commercial">
+        <dmn:inputEntry id="constraint_profile_rule_commercial_input">
+          <dmn:text>&quot;commercial_real_estate&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_profile_rule_commercial_output">
+          <dmn:text>&quot;commercial&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="constraint_profile_rule_land">
+        <dmn:inputEntry id="constraint_profile_rule_land_input">
+          <dmn:text>&quot;land_plots&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_profile_rule_land_output">
+          <dmn:text>&quot;land&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="constraint_profile_rule_default">
+        <dmn:inputEntry id="constraint_profile_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_profile_rule_default_output">
+          <dmn:text>&quot;default&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="segment_constraints_decision" name="SegmentConstraintsNotes">
+    <dmn:variable id="segment_constraints_variable" name="SegmentConstraintsNotes" typeRef="tConstraintNotes" />
+    <dmn:informationRequirement id="_065E72FD-A3ED-4BAB-8D00-728353BCA39F">
+      <dmn:requiredDecision href="#constraint_profile_decision" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="segment_constraints_table" hitPolicy="FIRST">
+      <dmn:input id="segment_constraints_profile_input">
+        <dmn:inputExpression id="segment_constraints_profile_input_expression" typeRef="string">
+          <dmn:text>Constraint Profile</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="segment_constraints_output_1" name="constraint_1" typeRef="string" />
+      <dmn:output id="segment_constraints_output_2" name="constraint_2" typeRef="string" />
+      <dmn:output id="segment_constraints_output_3" name="constraint_3" typeRef="string" />
+      <dmn:rule id="segment_constraints_rule_commercial">
+        <dmn:inputEntry id="segment_constraints_rule_commercial_input">
+          <dmn:text>&quot;commercial&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_commercial_output_1">
+          <dmn:text>&quot;Avoid guaranteed investment-return claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_commercial_output_2">
+          <dmn:text>&quot;Use verified project facts for legal, price, handover, and financing claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_commercial_output_3">
+          <dmn:text>&quot;Avoid implying guaranteed tenant demand or rental yield.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="segment_constraints_rule_land">
+        <dmn:inputEntry id="segment_constraints_rule_land_input">
+          <dmn:text>&quot;land&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_land_output_1">
+          <dmn:text>&quot;Avoid guaranteed investment-return claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_land_output_2">
+          <dmn:text>&quot;Use verified project facts for legal, price, handover, and financing claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_land_output_3">
+          <dmn:text>&quot;Highlight planning/legal clarity only when source-backed.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="segment_constraints_rule_default">
+        <dmn:inputEntry id="segment_constraints_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_default_output_1">
+          <dmn:text>&quot;Avoid guaranteed investment-return claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_default_output_2">
+          <dmn:text>&quot;Use verified project facts for legal, price, handover, and financing claims.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_default_output_3">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="rationale_notes_decision" name="RationaleNotes">
+    <dmn:variable id="rationale_notes_variable" name="RationaleNotes" typeRef="tRationaleNotes" />
+    <dmn:informationRequirement id="_5C9C859B-584E-4E00-B5A1-A7AB83EEAA62">
+      <dmn:requiredDecision href="#recommended_objective_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_6CF343E0-4CCE-4A4F-AE5D-D4D41E9178FE">
+      <dmn:requiredDecision href="#approval_required_decision" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="rationale_notes_table" hitPolicy="FIRST">
+      <dmn:input id="rationale_notes_objective_input">
+        <dmn:inputExpression id="rationale_notes_objective_input_expression" typeRef="string">
+          <dmn:text>Recommended Objective</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="rationale_notes_approval_input">
+        <dmn:inputExpression id="rationale_notes_approval_input_expression" typeRef="boolean">
+          <dmn:text>Approval Required</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="rationale_notes_output_1" name="note_1" typeRef="string" />
+      <dmn:output id="rationale_notes_output_2" name="note_2" typeRef="string" />
+      <dmn:output id="rationale_notes_output_3" name="note_3" typeRef="string" />
+      <dmn:rule id="rationale_notes_rule_awareness">
+        <dmn:inputEntry id="rationale_notes_rule_awareness_input_objective">
+          <dmn:text>&quot;awareness&quot;</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rationale_notes_rule_awareness_input_approval">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_awareness_output_1">
+          <dmn:text>&quot;Objective emphasizes awareness and reach outcomes.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_awareness_output_2">
+          <dmn:text>&quot;CTA remains consultative to fit real estate discovery behavior.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_awareness_output_3">
+          <dmn:text>&quot;Buyer profile and insight availability influence planning confidence.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="rationale_notes_rule_approval">
+        <dmn:inputEntry id="rationale_notes_rule_approval_input_objective">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rationale_notes_rule_approval_input_approval">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_approval_output_1">
+          <dmn:text>&quot;Objective follows provided campaign intent when present.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_approval_output_2">
+          <dmn:text>&quot;CTA prioritizes consultative lead capture for real estate campaigns.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_approval_output_3">
+          <dmn:text>&quot;Missing insight signals increase review requirements before downstream use.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="rationale_notes_rule_default">
+        <dmn:inputEntry id="rationale_notes_rule_default_input_objective">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="rationale_notes_rule_default_input_approval">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_default_output_1">
+          <dmn:text>&quot;Objective follows provided campaign intent when present.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_default_output_2">
+          <dmn:text>&quot;CTA prioritizes consultative lead capture for real estate campaigns.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="rationale_notes_rule_default_output_3">
+          <dmn:text>&quot;Buyer profile and insight availability influence planning confidence.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="planning_assumptions_decision" name="PlanningAssumptionNotes">
+    <dmn:variable id="planning_assumptions_variable" name="PlanningAssumptionNotes" typeRef="tPlanningAssumptionNotes" />
+    <dmn:informationRequirement id="_C1A0244C-0727-4DA5-80C7-9285E65AD36B">
+      <dmn:requiredDecision href="#approval_required_decision" />
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="planning_assumptions_table" hitPolicy="FIRST">
+      <dmn:input id="planning_assumptions_approval_input">
+        <dmn:inputExpression id="planning_assumptions_approval_input_expression" typeRef="boolean">
+          <dmn:text>Approval Required</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="planning_assumptions_output_1" name="assumption_1" typeRef="string" />
+      <dmn:output id="planning_assumptions_output_2" name="assumption_2" typeRef="string" />
+      <dmn:rule id="planning_assumptions_rule_review_required">
+        <dmn:inputEntry id="planning_assumptions_rule_review_required_input">
+          <dmn:text>true</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="planning_assumptions_rule_review_required_output_1">
+          <dmn:text>&quot;Strategy recommendations are intended to guide downstream planning and copy generation.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="planning_assumptions_rule_review_required_output_2">
+          <dmn:text>&quot;Missing insight signals may require human review before draft approval.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="planning_assumptions_rule_default">
+        <dmn:inputEntry id="planning_assumptions_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="planning_assumptions_rule_default_output_1">
+          <dmn:text>&quot;Strategy recommendations are intended to guide downstream planning and copy generation.&quot;</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="planning_assumptions_rule_default_output_2">
+          <dmn:text>&quot;Human review is still required before generated content is treated as final.&quot;</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="campaign_strategy_decision" name="Campaign Strategy Decision">
+    <dmn:variable id="campaign_strategy_decision_variable" name="Campaign Strategy Decision" typeRef="tStrategyOutput" />
+    <dmn:informationRequirement id="_66F23BC7-2E3D-426B-BC34-8458F835FC88">
+      <dmn:requiredDecision href="#recommended_objective_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_309DD181-FDD2-421F-BEEE-CF60C030A24C">
+      <dmn:requiredDecision href="#recommended_cta_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_8FD902FA-B81F-40F6-B5C2-2E77235837AB">
+      <dmn:requiredDecision href="#kpi_expectation_band_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_43CB8186-92A5-406B-8BAA-E11FF37AE897">
+      <dmn:requiredDecision href="#approval_required_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_F208998A-9285-4555-B3C4-20E1410A9296">
+      <dmn:requiredDecision href="#constraint_profile_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9356AC43-C3C5-474A-93FC-5006D447F853">
+      <dmn:requiredDecision href="#segment_constraints_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_76423C9F-91E8-4A98-9583-4C4CC6E1C31A">
+      <dmn:requiredDecision href="#rationale_notes_decision" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_A55E75C7-C9A2-4591-9130-1AAB0A2EE9B4">
+      <dmn:requiredDecision href="#planning_assumptions_decision" />
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="campaign_strategy_expression">
+      <dmn:text>{ rule_version: &quot;campaign-strategy-v1&quot;, recommended_objective: Recommended Objective, recommended_cta: Recommended CTA, kpi_expectation_band: KPI Expectation Band, approval_required: Approval Required, segment_constraints: [SegmentConstraintsNotes.constraint_1, SegmentConstraintsNotes.constraint_2, SegmentConstraintsNotes.constraint_3][item != null], rationale_notes: [RationaleNotes.note_1, RationaleNotes.note_2, RationaleNotes.note_3][item != null], planning_assumptions: [PlanningAssumptionNotes.assumption_1, PlanningAssumptionNotes.assumption_2][item != null] }</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:inputData id="brief_input" name="brief">
+    <dmn:variable id="brief_variable" name="brief" typeRef="tBrief" />
+  </dmn:inputData>
+  <dmn:inputData id="insight_context_input" name="insight_context">
+    <dmn:variable id="insight_context_variable" name="insight_context" typeRef="tInsightContext" />
+  </dmn:inputData>
+  <dmn:decisionService id="campaign_strategy_service" name="EvaluateCampaignStrategy">
+    <dmn:variable id="campaign_strategy_service_variable" name="EvaluateCampaignStrategy" typeRef="tStrategyOutput" />
+    <dmn:outputDecision href="#campaign_strategy_decision" />
+    <dmn:encapsulatedDecision href="#campaign_strategy_decision" />
+  </dmn:decisionService>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="campaign_strategy_diagram" name="Campaign Strategy Diagram">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="campaign_strategy_expression">
+            <kie:width>467</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="shape_brief_input" dmnElementRef="brief_input">
+        <dc:Bounds x="60" y="120" width="120" height="45" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_insight_context_input" dmnElementRef="insight_context_input">
+        <dc:Bounds x="60" y="220" width="120" height="45" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_recommended_objective_decision" dmnElementRef="recommended_objective_decision">
+        <dc:Bounds x="240" y="40" width="150" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_recommended_cta_decision" dmnElementRef="recommended_cta_decision">
+        <dc:Bounds x="240" y="120" width="150" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_kpi_expectation_band_decision" dmnElementRef="kpi_expectation_band_decision">
+        <dc:Bounds x="240" y="200" width="150" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_approval_required_decision" dmnElementRef="approval_required_decision">
+        <dc:Bounds x="240" y="280" width="150" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_constraint_profile_decision" dmnElementRef="constraint_profile_decision">
+        <dc:Bounds x="240" y="360" width="150" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_campaign_strategy_decision" dmnElementRef="campaign_strategy_decision">
+        <dc:Bounds x="470" y="180" width="180" height="70" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_campaign_strategy_service" dmnElementRef="campaign_strategy_service">
+        <dc:Bounds x="720" y="180" width="190" height="70" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

@@ -1,0 +1,212 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/"
+                 xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+                 xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+                 xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+                 id="segment_constraints_definitions"
+                 name="SegmentConstraints"
+                 namespace="https://contentcreator/rules/segment-constraints"
+                 typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/"
+                 expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/">
+  <dmn:itemDefinition id="tDraftContext" name="tDraftContext">
+    <dmn:itemComponent id="tDraftContext_format_type" name="format_type">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tSegmentConstraintsOutput" name="tSegmentConstraintsOutput">
+    <dmn:itemComponent id="tSegment_rule_version" name="rule_version">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tSegment_constraints" name="segment_constraints" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tConstraintNotes" name="tConstraintNotes">
+    <dmn:itemComponent id="tConstraintNotes_1" name="constraint_1">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tConstraintNotes_2" name="constraint_2">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tConstraintNotes_3" name="constraint_3">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:inputData id="segment_property_segment_input" name="property_segment">
+    <dmn:variable id="segment_property_segment_variable" name="property_segment" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:inputData id="segment_draft_context_input" name="draft_context">
+    <dmn:variable id="segment_draft_context_variable" name="draft_context" typeRef="tDraftContext"/>
+  </dmn:inputData>
+  <dmn:decision id="constraint_profile_decision" name="Constraint Profile">
+    <dmn:variable id="constraint_profile_variable" name="Constraint Profile" typeRef="string"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#segment_property_segment_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#segment_draft_context_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="segment_constraints_table" hitPolicy="FIRST">
+      <dmn:input id="segment_constraints_table_property_segment">
+        <dmn:inputExpression id="segment_constraints_table_property_segment_expression" typeRef="string">
+          <dmn:text>property_segment</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="segment_constraints_table_format_type">
+        <dmn:inputExpression id="segment_constraints_table_format_type_expression" typeRef="string">
+          <dmn:text>draft_context.format_type</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="segment_constraints_table_output"/>
+      <dmn:rule id="segment_constraints_rule_commercial">
+        <dmn:inputEntry id="segment_constraints_rule_commercial_input_segment">
+          <dmn:text>"commercial_real_estate"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="segment_constraints_rule_commercial_input_format">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_commercial_output">
+          <dmn:text>"commercial"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="segment_constraints_rule_land">
+        <dmn:inputEntry id="segment_constraints_rule_land_input_segment">
+          <dmn:text>"land_plots"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="segment_constraints_rule_land_input_format">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_land_output">
+          <dmn:text>"land"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="segment_constraints_rule_promotion_offer">
+        <dmn:inputEntry id="segment_constraints_rule_promotion_offer_input_segment">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="segment_constraints_rule_promotion_offer_input_format">
+          <dmn:text>"promotion_offer"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_promotion_offer_output">
+          <dmn:text>"promotion_offer"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="segment_constraints_rule_default">
+        <dmn:inputEntry id="segment_constraints_rule_default_input_segment">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="segment_constraints_rule_default_input_format">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="segment_constraints_rule_default_output">
+          <dmn:text>"default"</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="constraint_notes_decision" name="ConstraintNotes">
+    <dmn:variable id="constraint_notes_variable" name="ConstraintNotes" typeRef="tConstraintNotes"/>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#constraint_profile_decision"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="constraint_notes_table" hitPolicy="FIRST">
+      <dmn:input id="constraint_notes_profile_input">
+        <dmn:inputExpression id="constraint_notes_profile_input_expression" typeRef="string">
+          <dmn:text>Constraint Profile</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="constraint_notes_output_1" name="constraint_1" typeRef="string"/>
+      <dmn:output id="constraint_notes_output_2" name="constraint_2" typeRef="string"/>
+      <dmn:output id="constraint_notes_output_3" name="constraint_3" typeRef="string"/>
+      <dmn:rule id="constraint_notes_rule_commercial">
+        <dmn:inputEntry id="constraint_notes_rule_commercial_input">
+          <dmn:text>"commercial"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_commercial_output_1">
+          <dmn:text>"Avoid guaranteed investment-return claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_commercial_output_2">
+          <dmn:text>"Use verified project facts for legal, price, handover, and financing claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_commercial_output_3">
+          <dmn:text>"Avoid implying guaranteed tenant demand or rental yield."</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="constraint_notes_rule_land">
+        <dmn:inputEntry id="constraint_notes_rule_land_input">
+          <dmn:text>"land"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_land_output_1">
+          <dmn:text>"Avoid guaranteed investment-return claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_land_output_2">
+          <dmn:text>"Use verified project facts for legal, price, handover, and financing claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_land_output_3">
+          <dmn:text>"Highlight planning/legal clarity only when source-backed."</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="constraint_notes_rule_promotion_offer">
+        <dmn:inputEntry id="constraint_notes_rule_promotion_offer_input">
+          <dmn:text>"promotion_offer"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_promotion_offer_output_1">
+          <dmn:text>"Avoid guaranteed investment-return claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_promotion_offer_output_2">
+          <dmn:text>"Use verified project facts for legal, price, handover, and financing claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_promotion_offer_output_3">
+          <dmn:text>"Verify promotion terms, dates, and eligibility before publishing."</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="constraint_notes_rule_default">
+        <dmn:inputEntry id="constraint_notes_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_default_output_1">
+          <dmn:text>"Avoid guaranteed investment-return claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_default_output_2">
+          <dmn:text>"Use verified project facts for legal, price, handover, and financing claims."</dmn:text>
+        </dmn:outputEntry>
+        <dmn:outputEntry id="constraint_notes_rule_default_output_3">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="segment_constraints_decision" name="Segment Constraints Decision">
+    <dmn:variable id="segment_constraints_decision_variable" name="Segment Constraints Decision" typeRef="tSegmentConstraintsOutput"/>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#constraint_notes_decision"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="segment_constraints_expression">
+      <dmn:text>{ rule_version: "segment-constraints-v1", segment_constraints: [ConstraintNotes.constraint_1, ConstraintNotes.constraint_2, ConstraintNotes.constraint_3][item != null] }</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decisionService id="segment_constraints_service" name="CheckSegmentConstraints">
+    <dmn:variable id="segment_constraints_service_variable" name="CheckSegmentConstraints" typeRef="tSegmentConstraintsOutput"/>
+    <dmn:outputDecision href="#segment_constraints_decision"/>
+    <dmn:encapsulatedDecision href="#segment_constraints_decision"/>
+  </dmn:decisionService>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="segment_constraints_diagram" name="Segment Constraints Diagram">
+      <dmndi:DMNShape id="shape_segment_property_segment_input" dmnElementRef="segment_property_segment_input">
+        <dc:Bounds x="60" y="150" width="145" height="45"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_segment_draft_context_input" dmnElementRef="segment_draft_context_input">
+        <dc:Bounds x="60" y="240" width="120" height="45"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_constraint_profile_decision_segment" dmnElementRef="constraint_profile_decision">
+        <dc:Bounds x="280" y="160" width="165" height="65"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_segment_constraints_decision" dmnElementRef="segment_constraints_decision">
+        <dc:Bounds x="520" y="160" width="180" height="70"/>
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_segment_constraints_service" dmnElementRef="segment_constraints_service">
+        <dc:Bounds x="770" y="160" width="180" height="70"/>
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

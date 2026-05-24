@@ -1,0 +1,666 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>content_creator UX Design Direction</title>
+  <style>
+    :root {
+      --page: #f8f9fa;
+      --ink: #1a2b49;
+      --ink-hover: #2a3b59;
+      --accent: #c8102e;
+      --accent-hover: #a80b23;
+      --surface: #ffffff;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --emerald: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    h1, h2, h3, h4, p { margin: 0; }
+    h1 { color: var(--ink); font-size: 16px; font-weight: 900; letter-spacing: 0; }
+    h2 { color: var(--ink); font-size: 14px; font-weight: 800; letter-spacing: 0; }
+    h3 { font-size: 10px; font-weight: 900; letter-spacing: .08em; text-transform: uppercase; }
+    h4 { color: var(--ink); font-size: 11px; font-weight: 800; }
+    p { color: var(--slate-500); line-height: 1.55; }
+
+    .shell {
+      height: 100vh;
+      min-height: 720px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+
+    .topbar {
+      min-height: 58px;
+      background: var(--surface);
+      border-bottom: 1px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 18px;
+      padding: 10px 18px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 270px;
+    }
+
+    .brand-badge,
+    .mini-badge {
+      background: var(--accent);
+      color: white;
+      border-radius: 2px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .brand-badge { padding: 4px 10px; font-size: 10px; }
+    .mini-badge { padding: 3px 6px; font-size: 8px; }
+
+    .brand-mark {
+      display: inline-block;
+      width: 32px;
+      height: 4px;
+      margin-left: 6px;
+      border-radius: 2px;
+      background: var(--accent);
+      vertical-align: middle;
+    }
+
+    .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      color: var(--accent);
+      background: rgba(200, 16, 46, .05);
+      border: 1px solid rgba(200, 16, 46, .1);
+      border-radius: 2px;
+      padding: 4px 10px;
+      font-size: 10px;
+      font-weight: 800;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    .pulse {
+      width: 7px;
+      height: 7px;
+      border-radius: 50%;
+      background: var(--accent);
+    }
+
+    .nav {
+      display: flex;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 28px;
+      border-radius: 2px;
+      padding: 0 10px;
+      color: var(--slate-600);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .tab.primary-active {
+      color: var(--accent);
+      background: white;
+      border: 1px solid var(--ink);
+      box-shadow: 1px 1px 0 0 var(--ink);
+    }
+
+    .tab.secondary-active {
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--slate-300);
+      font-weight: 900;
+    }
+
+    .workspace {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(320px, .82fr) minmax(540px, 1.18fr);
+      gap: 16px;
+      padding: 16px;
+    }
+
+    .panel {
+      min-height: 0;
+      background: white;
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      box-shadow: 4px 4px 0 0 var(--ink);
+      overflow: hidden;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .panel-header {
+      min-height: 42px;
+      border-bottom: 1px solid var(--ink);
+      padding: 10px 14px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .chat .panel-header {
+      background: var(--ink);
+      color: white;
+    }
+
+    .chat .panel-header h3 { color: white; }
+
+    .work .panel-header {
+      background: rgba(248, 250, 252, .82);
+      color: var(--ink);
+    }
+
+    .body {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      padding: 14px;
+      display: grid;
+      align-content: start;
+      gap: 12px;
+    }
+
+    .message {
+      max-width: 92%;
+      border: 1px solid var(--slate-200);
+      border-radius: 3px;
+      background: white;
+      color: var(--ink);
+      padding: 10px 11px;
+      box-shadow: 1px 1px 0 rgba(0, 0, 0, .04);
+    }
+
+    .message.user {
+      margin-left: auto;
+      background: var(--ink);
+      border-color: var(--ink);
+      color: white;
+    }
+
+    .message strong {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--accent);
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .message.user strong { color: var(--slate-300); }
+    .message.user p { color: white; }
+
+    .input-row {
+      border-top: 1px solid var(--slate-200);
+      background: var(--slate-50);
+      padding: 10px;
+      display: flex;
+      gap: 8px;
+    }
+
+    .fake-input {
+      flex: 1;
+      height: 34px;
+      border: 1px solid var(--slate-300);
+      border-radius: 2px;
+      background: white;
+      color: var(--slate-500);
+      padding: 8px 10px;
+      font-size: 12px;
+    }
+
+    .send {
+      width: 34px;
+      height: 34px;
+      border: 1px solid var(--ink);
+      border-radius: 2px;
+      background: var(--ink);
+      color: white;
+      font-weight: 900;
+    }
+
+    .section-line {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      min-width: 0;
+    }
+
+    .version-pill {
+      color: var(--ink);
+      background: rgba(26, 43, 73, .1);
+      border-radius: 2px;
+      padding: 4px 9px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+    }
+
+    .brief-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 9px;
+    }
+
+    .field {
+      min-height: 56px;
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      background: white;
+      box-shadow: 1.5px 1.5px 0 0 var(--ink);
+      padding: 9px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 5px;
+      color: var(--slate-500);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .field div {
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .cta-row {
+      display: flex;
+      justify-content: flex-end;
+      gap: 10px;
+      padding-top: 4px;
+    }
+
+    .btn {
+      height: 34px;
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      box-shadow: 1.5px 1.5px 0 0 var(--ink);
+      padding: 0 15px;
+      font-size: 11px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .btn.primary { background: var(--accent); color: white; }
+    .btn.primary:hover { background: var(--accent-hover); }
+    .btn.secondary { background: white; color: var(--ink); }
+
+    .draft-card,
+    .plan-card,
+    .note {
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      background: white;
+      box-shadow: 3px 3px 0 0 var(--ink);
+      overflow: hidden;
+    }
+
+    .card-head {
+      min-height: 36px;
+      background: rgba(26, 43, 73, .05);
+      border-bottom: 1px solid var(--ink);
+      padding: 9px 12px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .card-body {
+      padding: 12px;
+      display: grid;
+      gap: 10px;
+    }
+
+    .caption {
+      border: 1px solid var(--slate-200);
+      border-radius: 3px;
+      background: var(--slate-50);
+      color: var(--ink);
+      padding: 10px;
+      line-height: 1.6;
+      font-size: 11.5px;
+    }
+
+    .meta-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 8px;
+      border-top: 1px solid var(--slate-100);
+      padding-top: 10px;
+    }
+
+    .meta {
+      min-width: 0;
+      color: var(--ink);
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .meta span {
+      display: block;
+      margin-bottom: 3px;
+      color: var(--slate-500);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      border: 1px solid currentColor;
+      border-radius: 2px;
+      padding: 3px 7px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+      margin: 2px 5px 2px 0;
+    }
+
+    .ok { color: var(--emerald); }
+    .warn { color: var(--amber); }
+    .risk { color: var(--rose); }
+    .muted { color: var(--slate-500); }
+
+    .review-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 7px;
+      border-top: 1px solid var(--slate-100);
+      padding-top: 9px;
+    }
+
+    .status-button {
+      border: 1px solid var(--slate-300);
+      border-radius: 2px;
+      background: white;
+      color: var(--slate-600);
+      padding: 5px 8px;
+      font-size: 9px;
+      font-weight: 900;
+      letter-spacing: .04em;
+      text-transform: uppercase;
+    }
+
+    .status-button.approved {
+      background: var(--emerald);
+      border-color: var(--emerald);
+      color: white;
+    }
+
+    .status-button.revision {
+      color: var(--amber);
+      border-color: rgba(217, 119, 6, .45);
+    }
+
+    .status-button.rejected {
+      color: var(--rose);
+      border-color: rgba(225, 29, 72, .45);
+    }
+
+    .plan-card .card-head {
+      background: var(--ink);
+      color: white;
+    }
+
+    .plan-card .card-head h4 { color: white; }
+
+    .metrics {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .metric {
+      border: 1px solid var(--slate-200);
+      border-radius: 3px;
+      background: var(--slate-50);
+      padding: 9px;
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--slate-500);
+      font-size: 8px;
+      font-weight: 900;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+      margin-bottom: 5px;
+    }
+
+    .metric strong {
+      color: var(--ink);
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+    }
+
+    .metric.accent strong { color: var(--accent); }
+
+    .note {
+      box-shadow: none;
+      border-style: dashed;
+      border-color: var(--slate-300);
+      color: var(--slate-600);
+      background: var(--slate-50);
+      padding: 10px;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 1060px) {
+      .shell { height: auto; min-height: 100vh; overflow: auto; }
+      .topbar { align-items: flex-start; flex-direction: column; }
+      .workspace { grid-template-columns: 1fr; }
+      .metrics { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 640px) {
+      .workspace { padding: 10px; }
+      .brief-grid,
+      .meta-grid,
+      .metrics { grid-template-columns: 1fr; }
+      .nav { justify-content: flex-start; }
+      .brand { min-width: 0; }
+    }
+  </style>
+</head>
+<body>
+  <div class="shell">
+    <header class="topbar">
+      <div class="brand">
+        <span class="brand-badge">content_creator</span>
+        <div>
+          <h1>AI Marketing Workbench <span class="brand-mark"></span></h1>
+          <p>Giao diện vận hành 2 panel: chat streaming bên trái, workbench chiến dịch bên phải.</p>
+        </div>
+      </div>
+
+      <nav class="nav" aria-label="Các bước trong workbench">
+        <span class="status"><span class="pulse"></span>Đang kết nối Agent Server</span>
+        <span class="tab primary-active">1. Brief Dự Án</span>
+        <span class="tab">2. Bản Thảo Chiến Dịch</span>
+        <span class="tab secondary-active">Tra cứu Insights</span>
+        <span class="tab">Hoạch định &amp; Kiểm duyệt</span>
+      </nav>
+    </header>
+
+    <main class="workspace">
+      <section class="panel chat" aria-label="Trợ lý hội thoại chiến dịch">
+        <div class="panel-header">
+          <h3>Trợ lý hội thoại chiến dịch</h3>
+          <span class="mini-badge">Chiến dịch hoạt động</span>
+        </div>
+
+        <div class="body">
+          <article class="message">
+            <strong>Chuyên viên AI</strong>
+            <p>Tôi sẽ đọc brief, gọi workflow nghiên cứu, sau đó streaming kết quả theo từng agent.</p>
+          </article>
+
+          <article class="message user">
+            <strong>Người dùng</strong>
+            <p>Tạo nội dung Facebook cho căn hộ ven sông Quận 7, mục tiêu lead generation.</p>
+          </article>
+
+          <article class="message">
+            <strong>research_manager_agent</strong>
+            <p>Đang tạo insight workflow: project facts, local context, market signals, competitor positioning.</p>
+          </article>
+
+          <article class="message">
+            <strong>content_generation_agent</strong>
+            <p>Đang tạo các draft review-ready kèm caption, angle, creative suggestion và risk notes.</p>
+          </article>
+        </div>
+
+        <div class="input-row">
+          <div class="fake-input">Nhập yêu cầu tiếp theo...</div>
+          <button class="send" aria-label="Gửi">➜</button>
+        </div>
+      </section>
+
+      <section class="panel work" aria-label="Khu vực làm việc chiến dịch">
+        <div class="panel-header">
+          <div>
+            <div class="section-line">
+              <span class="mini-badge">Workbench</span>
+              <h2>Hồ sơ thông tin dự án bất động sản</h2>
+            </div>
+            <p>4 view hiện có trong code: Brief, Insights, Drafts, Review. Không có tab chẩn đoán riêng.</p>
+          </div>
+          <span class="version-pill">v2.0</span>
+        </div>
+
+        <div class="body">
+          <section class="brief-grid" aria-label="Các trường brief">
+            <div class="field"><label>Tên dự án</label><div>Căn hộ ven sông</div></div>
+            <div class="field"><label>Phân khúc sản phẩm</label><div>Apartments</div></div>
+            <div class="field"><label>Vị trí</label><div>Quận 7, TP. Hồ Chí Minh</div></div>
+            <div class="field"><label>Khoảng giá</label><div>3.2 tỷ - 5.5 tỷ VND</div></div>
+            <div class="field"><label>Mục tiêu chiến dịch</label><div>Lead Generation</div></div>
+            <div class="field"><label>Giọng điệu</label><div>Chuyên nghiệp, sang trọng</div></div>
+          </section>
+
+          <div class="cta-row">
+            <button class="btn primary">Bắt đầu tạo bài viết bằng AI</button>
+          </div>
+
+          <article class="draft-card" aria-label="Bản thảo nội dung chiến dịch">
+            <div class="card-head">
+              <div>
+                <span class="mini-badge">Image Post</span>
+                <h4>Phong cách sống ven sông</h4>
+              </div>
+              <span class="muted">Tạo từ Agent Server stream</span>
+            </div>
+
+            <div class="card-body">
+              <div class="caption">
+                Bạn có mơ về một buổi sáng kéo rèm đón trọn bình minh bên dòng sông xanh mát? Căn hộ ven sông mang lại không gian sống an yên nhưng vẫn kết nối thuận tiện với khu Nam Sài Gòn.
+              </div>
+
+              <p><strong>Creative suggestion:</strong> Ảnh góc rộng view sông từ ban công căn hộ mẫu, ánh sáng ấm, tối giản chữ trên hình.</p>
+
+              <div class="meta-grid">
+                <div class="meta"><span>Persona</span>Gia đình trẻ</div>
+                <div class="meta"><span>CTA</span>Gửi tin nhắn</div>
+                <div class="meta"><span>Objective</span>Lead Generation</div>
+              </div>
+
+              <div>
+                <span class="badge ok">Source-backed</span>
+                <span class="badge warn">User-provided</span>
+                <span class="badge risk">Risk note</span>
+              </div>
+
+              <div class="review-buttons">
+                <span class="muted">Trạng thái duyệt:</span>
+                <button class="status-button approved">Chấp thuận</button>
+                <button class="status-button revision">Cần chỉnh sửa</button>
+                <button class="status-button rejected">Từ chối</button>
+              </div>
+            </div>
+          </article>
+
+          <article class="plan-card" aria-label="Hoạch định ngân sách và kiểm duyệt">
+            <div class="card-head">
+              <h4>Hoạch định Chiến dịch &amp; Dự báo Ngân sách tối ưu</h4>
+              <span class="mini-badge">Review</span>
+            </div>
+
+            <div class="card-body">
+              <div class="metrics">
+                <div class="metric"><span>Tổng ngân sách</span><strong>120M VND</strong></div>
+                <div class="metric"><span>Mục tiêu Lead</span><strong>240</strong></div>
+                <div class="metric accent"><span>CPL dự kiến</span><strong>500K</strong></div>
+                <div class="metric"><span>Thời gian chạy</span><strong>30 ngày</strong></div>
+                <div class="metric"><span>Tần suất bài viết</span><strong>3/tuần</strong></div>
+              </div>
+              <p>Campaign plan panel hiện tại được parse từ streamed text và lưu trong React state.</p>
+            </div>
+          </article>
+
+          <div class="note">
+            Ghi chú đồng bộ code: Insights, drafts, campaign plan và review status đang là trạng thái cục bộ trong frontend workbench; artifact này không mô tả Product API persistence hoặc tab chẩn đoán riêng vì code UI hiện tại chưa có các phần đó.
+          </div>
+        </div>
+      </section>
+    </main>
+  </div>
+</body>
+</html>

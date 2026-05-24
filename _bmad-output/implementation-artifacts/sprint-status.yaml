@@ -1,0 +1,78 @@
+# generated: 2026-05-18T11:53:13+07:00
+# last_updated: 2026-05-24
+# project: content_creator
+# tracking_system: file-system
+# story_location: E:/Projects/google_adk/proj2/_bmad-output/implementation-artifacts
+#
+# This file is current-code-aligned as of 2026-05-24.
+# Older story markdown files remain implementation history. Active roadmap is
+# _bmad-output/planning-artifacts/epics.md.
+
+generated: 2026-05-18T11:53:13+07:00
+last_updated: 2026-05-24
+project: content_creator
+project_key: NOKEY
+tracking_system: file-system
+story_location: E:/Projects/google_adk/proj2/_bmad-output/implementation-artifacts
+
+current_runtime:
+  web:
+    local_url: http://localhost:3000
+    public_url: https://mktagent.hoangvu.id.vn
+    status: implemented
+  agent_server:
+    local_url: http://127.0.0.1:8181
+    public_url: https://apiagent.hoangvu.id.vn
+    status: implemented
+  product_server:
+    local_url: http://127.0.0.1:8282
+    public_url: internal
+    status: implemented
+  rules_service:
+    local_url: http://localhost:8080
+    public_url: internal
+    status: optional_with_localrules_fallback
+
+development_status:
+  epic-1-runtime-and-deployment-alignment: in-progress
+  1-1-align-local-ports-and-env-templates: done
+  1-2-document-current-public-exposure: done
+
+  epic-2-project-brief-and-insight-state: in-progress
+  2-1-product-project-crud: done
+  2-2-market-insight-snapshot-api: done
+  2-3-frontend-product-api-integration: backlog
+
+  epic-3-agent-streaming-workflow: in-progress
+  3-1-agent-server-sse-chat: done
+  3-2-adk-agent-hierarchy: done
+  3-3-durable-session-boundary: backlog
+
+  epic-4-rule-backed-planning-and-safety: in-progress
+  4-1-kogito-dmn-assets: done
+  4-2-fastapi-rule-wrappers-and-audit-records: done
+  4-3-localrules-dmn-parity-review: backlog
+
+  epic-5-draft-and-review-persistence: backlog
+  5-1-implement-draft-set-models-and-storage: backlog
+  5-2-implement-draft-routes: backlog
+  5-3-implement-review-state-route: backlog
+  5-4-wire-frontend-draft-review-api: backlog
+
+  epic-6-diagnostics-and-test-alignment: backlog
+  6-1-diagnostics-api: backlog
+  6-2-dependency-hygiene: backlog
+  6-3-test-suite-alignment: backlog
+  6-4-documentation-gate: done
+
+known_gaps:
+  - Draft review persistence and review-state transition API are not implemented; inactive ADK wrapper removed.
+  - Frontend does not currently use NEXT_PUBLIC_API_BASE_URL.
+  - Drafts and review status are local React state only.
+  - Diagnostics events/routes are not implemented.
+  - Agent sessions are in memory only.
+  - Backend requirements import dotenv but requirements.txt does not list python-dotenv.
+  - Some backend tests still reflect older topology/timeout expectations.
+
+historical_story_files:
+  note: Existing 1-1 through 3-7 markdown files are retained as implementation history, not active source of truth.

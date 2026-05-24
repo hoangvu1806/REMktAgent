@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/" xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/" xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/" xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/" xmlns:kie="https://kie.org/dmn/extensions/1.0" id="campaign_plan_definitions" name="CampaignPlan" namespace="https://contentcreator/rules/campaign-plan" typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/" expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/">
+  <dmn:itemDefinition id="tBand" name="tBand">
+    <dmn:itemComponent id="tBand_min" name="min">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tBand_max" name="max">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tBand_unit" name="unit">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tBrief" name="tBrief">
+    <dmn:itemComponent id="tPlanBrief_property_segment" name="property_segment">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlanBrief_campaign_objective" name="campaign_objective">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tPlanningConstraints" name="tPlanningConstraints">
+    <dmn:itemComponent id="tConstraints_total_budget_vnd" name="total_budget_vnd">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tConstraints_target_leads" name="target_leads">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tConstraints_campaign_days" name="campaign_days">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tConstraints_launch_phase" name="launch_phase">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tInsightContext" name="tInsightContext">
+    <dmn:itemComponent id="tPlanInsight_summary" name="summary">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlanInsight_source_backed_signal_count" name="source_backed_signal_count">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlanInsight_unavailable_inputs" name="unavailable_inputs" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tKpiForecast" name="tKpiForecast">
+    <dmn:itemComponent id="tKpi_leads" name="leads">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tKpi_cpl" name="cpl">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tKpi_clicks" name="clicks">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tKpi_reach" name="reach">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tCadence" name="tCadence">
+    <dmn:itemComponent id="tCadence_posts_per_week" name="posts_per_week">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tCadence_creative_variants_per_week" name="creative_variants_per_week">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tCadence_review_checkpoint_days" name="review_checkpoint_days" isCollection="true">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tCampaignPlanOutput" name="tCampaignPlanOutput">
+    <dmn:itemComponent id="tPlan_rule_version" name="rule_version">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_formula_version" name="formula_version">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_budget_band" name="budget_band">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_daily_budget_band" name="daily_budget_band">
+      <dmn:typeRef>tBand</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_kpi_forecast_band" name="kpi_forecast_band">
+      <dmn:typeRef>tKpiForecast</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_recommended_duration_days" name="recommended_duration_days">
+      <dmn:typeRef>number</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_content_cadence" name="content_cadence">
+      <dmn:typeRef>tCadence</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_confidence_level" name="confidence_level">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_unavailable_inputs" name="unavailable_inputs" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_planning_assumptions" name="planning_assumptions" isCollection="true">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_estimate_disclaimer" name="estimate_disclaimer">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tPlan_approval_required" name="approval_required">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:decision id="campaign_plan_decision" name="Campaign Plan Decision">
+    <dmn:variable id="campaign_plan_decision_variable" name="Campaign Plan Decision" typeRef="tCampaignPlanOutput" />
+    <dmn:informationRequirement id="_5EE895E6-7E18-4285-8935-63C363FCEB1C">
+      <dmn:requiredInput href="#plan_brief_input" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_02CAA129-A411-4723-AEAC-716BCFC5B89E">
+      <dmn:requiredInput href="#planning_constraints_input" />
+    </dmn:informationRequirement>
+    <dmn:informationRequirement id="_9073DE85-8C8B-47A6-AE98-BCFBCEF3E0DA">
+      <dmn:requiredInput href="#plan_insight_context_input" />
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="campaign_plan_expression">
+      <dmn:text>{
+        rule_version: &quot;campaign-planning-v1&quot;,
+        formula_version: &quot;planning-formula-v1&quot;,
+        budget_band: { min: planning_constraints.total_budget_vnd * 0.85, max: planning_constraints.total_budget_vnd * 1.15, unit: &quot;VND&quot; },
+        daily_budget_band: { min: (planning_constraints.total_budget_vnd / planning_constraints.campaign_days) * 0.85, max: (planning_constraints.total_budget_vnd / planning_constraints.campaign_days) * 1.15, unit: &quot;VND&quot; },
+        kpi_forecast_band: {
+          leads: { min: planning_constraints.target_leads * 0.8, max: planning_constraints.target_leads * 1.2, unit: &quot;leads&quot; },
+          cpl: { min: (planning_constraints.total_budget_vnd / planning_constraints.target_leads) * 0.85, max: (planning_constraints.total_budget_vnd / planning_constraints.target_leads) * 1.15, unit: &quot;VND&quot; },
+          clicks: { min: planning_constraints.target_leads * 12 * 0.8, max: planning_constraints.target_leads * 12 * 1.2, unit: &quot;clicks&quot; },
+          reach: { min: planning_constraints.target_leads * 180 * 0.8, max: planning_constraints.target_leads * 180 * 1.2, unit: &quot;people&quot; }
+        },
+        recommended_duration_days: planning_constraints.campaign_days,
+        content_cadence: {
+          posts_per_week: if brief.property_segment = &quot;commercial_real_estate&quot; then 3 else if planning_constraints.launch_phase = &quot;launch&quot; then 5 else 4,
+          creative_variants_per_week: 3,
+          review_checkpoint_days: [7, 14, 21]
+        },
+        confidence_level: if count(insight_context.unavailable_inputs) &gt; 0 then &quot;low&quot; else if insight_context.source_backed_signal_count &gt;= 3 then &quot;medium&quot; else &quot;cautious&quot;,
+        unavailable_inputs: insight_context.unavailable_inputs,
+        planning_assumptions: [&quot;Budget and KPI outputs are planning estimates.&quot;, &quot;CPL ranges use conservative real estate lead-generation assumptions.&quot;, &quot;Human review is required before treating plan outputs as final commitments.&quot;],
+        estimate_disclaimer: &quot;Planning estimate only; not financial, legal, investment, or guaranteed performance advice.&quot;,
+        approval_required: count(insight_context.unavailable_inputs) &gt; 0
+      }</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:inputData id="plan_brief_input" name="brief">
+    <dmn:variable id="plan_brief_variable" name="brief" typeRef="tBrief" />
+  </dmn:inputData>
+  <dmn:inputData id="planning_constraints_input" name="planning_constraints">
+    <dmn:variable id="planning_constraints_variable" name="planning_constraints" typeRef="tPlanningConstraints" />
+  </dmn:inputData>
+  <dmn:inputData id="plan_insight_context_input" name="insight_context">
+    <dmn:variable id="plan_insight_context_variable" name="insight_context" typeRef="tInsightContext" />
+  </dmn:inputData>
+  <dmn:decisionService id="campaign_plan_service" name="EvaluateCampaignPlan">
+    <dmn:variable id="campaign_plan_service_variable" name="EvaluateCampaignPlan" typeRef="tCampaignPlanOutput" />
+    <dmn:outputDecision href="#campaign_plan_decision" />
+    <dmn:encapsulatedDecision href="#campaign_plan_decision" />
+  </dmn:decisionService>
+  <dmn:decisionService id="budget_forecast_service" name="CalculateBudgetForecast">
+    <dmn:variable id="budget_forecast_service_variable" name="CalculateBudgetForecast" typeRef="tCampaignPlanOutput" />
+    <dmn:outputDecision href="#campaign_plan_decision" />
+    <dmn:encapsulatedDecision href="#campaign_plan_decision" />
+  </dmn:decisionService>
+  <dmn:decisionService id="campaign_timeline_service" name="RecommendCampaignTimeline">
+    <dmn:variable id="campaign_timeline_service_variable" name="RecommendCampaignTimeline" typeRef="tCampaignPlanOutput" />
+    <dmn:outputDecision href="#campaign_plan_decision" />
+    <dmn:encapsulatedDecision href="#campaign_plan_decision" />
+  </dmn:decisionService>
+  <dmndi:DMNDI>
+    <dmndi:DMNDiagram id="campaign_plan_diagram" name="Campaign Plan Diagram">
+      <di:extension>
+        <kie:ComponentsWidthsExtension>
+          <kie:ComponentWidths dmnElementRef="campaign_plan_expression">
+            <kie:width>936</kie:width>
+          </kie:ComponentWidths>
+        </kie:ComponentsWidthsExtension>
+      </di:extension>
+      <dmndi:DMNShape id="shape_plan_brief_input" dmnElementRef="plan_brief_input">
+        <dc:Bounds x="60" y="130" width="120" height="45" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_planning_constraints_input" dmnElementRef="planning_constraints_input">
+        <dc:Bounds x="60" y="220" width="150" height="45" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_plan_insight_context_input" dmnElementRef="plan_insight_context_input">
+        <dc:Bounds x="60" y="310" width="135" height="45" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_campaign_plan_decision" dmnElementRef="campaign_plan_decision">
+        <dc:Bounds x="300" y="210" width="190" height="70" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_campaign_plan_service" dmnElementRef="campaign_plan_service">
+        <dc:Bounds x="570" y="110" width="190" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_budget_forecast_service" dmnElementRef="budget_forecast_service">
+        <dc:Bounds x="570" y="210" width="190" height="60" />
+      </dmndi:DMNShape>
+      <dmndi:DMNShape id="shape_campaign_timeline_service" dmnElementRef="campaign_timeline_service">
+        <dc:Bounds x="570" y="310" width="190" height="60" />
+      </dmndi:DMNShape>
+    </dmndi:DMNDiagram>
+  </dmndi:DMNDI>
+</dmn:definitions>

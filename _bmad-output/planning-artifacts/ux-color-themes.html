@@ -1,0 +1,372 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>content_creator UX Color Themes</title>
+  <style>
+    :root {
+      --page: #f8f9fa;
+      --surface: #ffffff;
+      --ink: #1a2b49;
+      --ink-hover: #2a3b59;
+      --accent: #c8102e;
+      --accent-hover: #a80b23;
+      --slate-50: #f8fafc;
+      --slate-100: #f1f5f9;
+      --slate-200: #e2e8f0;
+      --slate-300: #cbd5e1;
+      --slate-500: #64748b;
+      --slate-600: #475569;
+      --emerald: #059669;
+      --amber: #d97706;
+      --rose: #e11d48;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      background: var(--page);
+      color: var(--ink);
+      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      font-size: 13px;
+    }
+
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 24px; font-weight: 900; letter-spacing: 0; }
+    h2 { font-size: 14px; font-weight: 900; margin-bottom: 10px; letter-spacing: 0; }
+    h3 { font-size: 11px; font-weight: 900; text-transform: uppercase; letter-spacing: .06em; }
+    p { color: var(--slate-500); line-height: 1.55; margin-top: 6px; }
+
+    main {
+      max-width: 1180px;
+      margin: 0 auto;
+      padding: 28px;
+    }
+
+    .intro,
+    .card,
+    .panel {
+      background: var(--surface);
+      border: 1px solid var(--ink);
+      border-radius: 3px;
+      box-shadow: 4px 4px 0 0 var(--ink);
+    }
+
+    .intro {
+      padding: 18px;
+      margin-bottom: 22px;
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+    }
+
+    .card {
+      padding: 12px;
+      box-shadow: 2px 2px 0 0 var(--ink);
+    }
+
+    .swatch {
+      height: 68px;
+      border: 1px solid rgba(26, 43, 73, .22);
+      border-radius: 2px;
+      margin-bottom: 10px;
+    }
+
+    .label {
+      font-size: 12px;
+      font-weight: 900;
+      color: var(--ink);
+    }
+
+    .hex {
+      color: var(--slate-500);
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+      font-size: 11px;
+      margin-top: 4px;
+    }
+
+    .usage {
+      color: var(--slate-600);
+      font-size: 11px;
+      line-height: 1.45;
+      margin-top: 6px;
+    }
+
+    .sample {
+      margin-top: 22px;
+      display: grid;
+      grid-template-columns: minmax(0, 1fr) minmax(320px, .8fr);
+      gap: 16px;
+    }
+
+    .panel {
+      overflow: hidden;
+    }
+
+    .panel-head {
+      min-height: 42px;
+      background: var(--ink);
+      color: white;
+      padding: 11px 13px;
+      border-bottom: 1px solid var(--ink);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .panel-body {
+      padding: 14px;
+      display: grid;
+      gap: 12px;
+    }
+
+    .chip {
+      display: inline-flex;
+      align-items: center;
+      border-radius: 2px;
+      padding: 4px 8px;
+      border: 1px solid currentColor;
+      font-size: 9px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .04em;
+      margin: 3px 5px 3px 0;
+      white-space: nowrap;
+    }
+
+    .brand-chip {
+      color: white;
+      background: var(--accent);
+      border-color: var(--accent);
+    }
+
+    .source { color: var(--emerald); background: #ecfdf5; }
+    .assumption { color: var(--amber); background: #fffbeb; }
+    .risk { color: var(--rose); background: #fff1f2; }
+    .muted { color: var(--slate-600); background: var(--slate-100); }
+
+    .nav-row,
+    .button-row,
+    .review-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .nav-tab {
+      display: inline-flex;
+      align-items: center;
+      min-height: 28px;
+      border-radius: 2px;
+      padding: 0 10px;
+      color: var(--slate-600);
+      font-size: 11px;
+      font-weight: 800;
+      letter-spacing: .02em;
+    }
+
+    .nav-tab.active-primary {
+      color: var(--accent);
+      background: white;
+      border: 1px solid var(--ink);
+      box-shadow: 1px 1px 0 0 var(--ink);
+    }
+
+    .nav-tab.active-secondary {
+      color: var(--ink);
+      background: white;
+      border: 1px solid var(--slate-300);
+      font-weight: 900;
+    }
+
+    button {
+      height: 34px;
+      border-radius: 3px;
+      border: 1px solid var(--ink);
+      padding: 0 12px;
+      font-size: 11px;
+      font-weight: 900;
+      text-transform: uppercase;
+      box-shadow: 1.5px 1.5px 0 0 var(--ink);
+      cursor: default;
+    }
+
+    .primary { background: var(--accent); color: white; }
+    .primary-hover { background: var(--accent-hover); color: white; }
+    .secondary { background: white; color: var(--ink); }
+    .ink { background: var(--ink); color: white; }
+    .ink-hover { background: var(--ink-hover); color: white; }
+
+    .review {
+      border: 1px solid var(--slate-300);
+      border-radius: 2px;
+      background: white;
+      box-shadow: none;
+      height: 28px;
+      padding: 0 9px;
+      font-size: 9px;
+    }
+
+    .approved { background: var(--emerald); border-color: var(--emerald); color: white; }
+    .revision { color: var(--amber); border-color: rgba(217, 119, 6, .45); }
+    .rejected { color: var(--rose); border-color: rgba(225, 29, 72, .45); }
+
+    .metric-grid {
+      display: grid;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .metric {
+      border: 1px solid var(--slate-200);
+      background: var(--slate-50);
+      border-radius: 3px;
+      padding: 10px;
+      min-width: 0;
+    }
+
+    .metric span {
+      display: block;
+      color: var(--slate-500);
+      font-size: 8px;
+      font-weight: 900;
+      text-transform: uppercase;
+      letter-spacing: .08em;
+      margin-bottom: 4px;
+    }
+
+    .metric strong {
+      color: var(--ink);
+      font-size: 12px;
+      font-family: ui-monospace, SFMono-Regular, Consolas, "Liberation Mono", monospace;
+    }
+
+    .metric.accent strong { color: var(--accent); }
+
+    .caption {
+      border: 1px solid var(--slate-200);
+      background: var(--slate-50);
+      padding: 11px;
+      color: var(--ink);
+      line-height: 1.55;
+      border-radius: 3px;
+    }
+
+    .note {
+      border: 1px dashed var(--slate-300);
+      border-radius: 3px;
+      background: var(--slate-50);
+      color: var(--slate-600);
+      padding: 10px;
+      font-size: 11px;
+      line-height: 1.55;
+    }
+
+    @media (max-width: 900px) {
+      main { padding: 18px; }
+      .sample { grid-template-columns: 1fr; }
+      .metric-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    }
+
+    @media (max-width: 560px) {
+      .metric-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="intro">
+      <span class="chip brand-chip">content_creator</span>
+      <h1>UX Color Themes</h1>
+      <p>Palette này đồng bộ với `ProjectBriefWorkbench`: nền trung tính, navy cho cấu trúc, đỏ cho brand/action, slate cho metadata, emerald/amber/rose cho trạng thái có ý nghĩa.</p>
+    </section>
+
+    <section class="grid" aria-label="Color tokens">
+      <div class="card"><div class="swatch" style="background:#f8f9fa"></div><div class="label">Workbench Background</div><div class="hex">#F8F9FA</div><div class="usage">Nền toàn màn hình của workbench.</div></div>
+      <div class="card"><div class="swatch" style="background:#ffffff"></div><div class="label">Surface</div><div class="hex">#FFFFFF</div><div class="usage">Panel, field, draft card, input.</div></div>
+      <div class="card"><div class="swatch" style="background:#1a2b49"></div><div class="label">Ink / Structure</div><div class="hex">#1A2B49</div><div class="usage">Border, header chat, shadow, user bubble, text chính.</div></div>
+      <div class="card"><div class="swatch" style="background:#2a3b59"></div><div class="label">Ink Hover</div><div class="hex">#2A3B59</div><div class="usage">Hover cho nút navy như send/secondary action.</div></div>
+      <div class="card"><div class="swatch" style="background:#c8102e"></div><div class="label">Primary Accent</div><div class="hex">#C8102E</div><div class="usage">Brand badge, active primary tab, CTA, emphasis trong markdown.</div></div>
+      <div class="card"><div class="swatch" style="background:#a80b23"></div><div class="label">Accent Hover</div><div class="hex">#A80B23</div><div class="usage">Hover cho CTA đỏ.</div></div>
+      <div class="card"><div class="swatch" style="background:#f8fafc"></div><div class="label">Slate 50</div><div class="hex">#F8FAFC</div><div class="usage">Panel header phụ, caption box, metric box.</div></div>
+      <div class="card"><div class="swatch" style="background:#e2e8f0"></div><div class="label">Slate 200</div><div class="hex">#E2E8F0</div><div class="usage">Divider và border nhẹ.</div></div>
+      <div class="card"><div class="swatch" style="background:#cbd5e1"></div><div class="label">Slate 300</div><div class="hex">#CBD5E1</div><div class="usage">Input border, inactive status button border.</div></div>
+      <div class="card"><div class="swatch" style="background:#64748b"></div><div class="label">Muted Text</div><div class="hex">#64748B</div><div class="usage">Helper text, field label, metadata label.</div></div>
+      <div class="card"><div class="swatch" style="background:#059669"></div><div class="label">Approved / Source</div><div class="hex">#059669</div><div class="usage">Chấp thuận, approved, source-backed.</div></div>
+      <div class="card"><div class="swatch" style="background:#d97706"></div><div class="label">Assumption / Warning</div><div class="hex">#D97706</div><div class="usage">Cần chỉnh sửa, assumption, caution state.</div></div>
+      <div class="card"><div class="swatch" style="background:#e11d48"></div><div class="label">Risk / Rejected</div><div class="hex">#E11D48</div><div class="usage">Risk note, từ chối, nội dung cần kiểm duyệt.</div></div>
+    </section>
+
+    <section class="sample" aria-label="Component samples">
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Workbench Components</h3>
+          <span class="chip brand-chip">Current UI</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="nav-row">
+            <span class="nav-tab active-primary">1. Brief Dự Án</span>
+            <span class="nav-tab">2. Bản Thảo Chiến Dịch</span>
+            <span class="nav-tab active-secondary">Tra cứu Insights</span>
+            <span class="nav-tab">Hoạch định &amp; Kiểm duyệt</span>
+          </div>
+
+          <div class="caption">
+            Bản thảo nội dung hiện tại được tạo từ Agent Server stream, sau đó UI parse thành draft card và giữ trong React state.
+          </div>
+
+          <div>
+            <span class="chip source">Source-backed</span>
+            <span class="chip assumption">User-provided</span>
+            <span class="chip risk">Risk note</span>
+            <span class="chip muted">Local state</span>
+          </div>
+
+          <div class="button-row">
+            <button class="primary">Bắt đầu tạo bài viết</button>
+            <button class="primary-hover">CTA hover</button>
+            <button class="secondary">Trở về Brief</button>
+            <button class="ink">Gửi</button>
+            <button class="ink-hover">Gửi hover</button>
+          </div>
+
+          <div class="review-row">
+            <button class="review approved">Chấp thuận</button>
+            <button class="review revision">Cần chỉnh sửa</button>
+            <button class="review rejected">Từ chối</button>
+          </div>
+        </div>
+      </article>
+
+      <article class="panel">
+        <div class="panel-head">
+          <h3>Review Metrics</h3>
+          <span class="chip brand-chip">Review</span>
+        </div>
+
+        <div class="panel-body">
+          <div class="metric-grid">
+            <div class="metric"><span>Tổng ngân sách</span><strong>120M</strong></div>
+            <div class="metric"><span>Mục tiêu Lead</span><strong>240</strong></div>
+            <div class="metric accent"><span>CPL dự kiến</span><strong>500K</strong></div>
+            <div class="metric"><span>Thời gian chạy</span><strong>30 ngày</strong></div>
+            <div class="metric"><span>Tần suất bài viết</span><strong>3/tuần</strong></div>
+          </div>
+
+          <div class="note">
+            Không dùng tab chẩn đoán riêng hoặc palette xanh cũ trong UX artifact này, vì UI hiện tại chỉ có Brief, Insights, Drafts và Review.
+          </div>
+        </div>
+      </article>
+    </section>
+  </main>
+</body>
+</html>

@@ -1,0 +1,73 @@
+services:
+  product-api:
+    build:
+      context: ./api
+    container_name: remktagent-product-api
+    environment:
+      CONTENT_CREATOR_ENV: docker
+      SQLITE_DATABASE_PATH: /app/data/content_creator.sqlite3
+      KOGITO_RULE_SERVICE_URL: http://rules-service:8080
+      KOGITO_RULE_TIMEOUT_SECONDS: 5
+    volumes:
+      - api-data:/app/data
+    ports:
+      - "8282:8282"
+    depends_on:
+      rules-service:
+        condition: service_started
+    command: >
+      python -m uvicorn app.main:app
+      --host 0.0.0.0
+      --port 8282
+
+  agent-api:
+    build:
+      context: ./api
+    container_name: remktagent-agent-api
+    environment:
+      CONTENT_CREATOR_ENV: docker
+      GOOGLE_API_KEY: ${GOOGLE_API_KEY:-}
+      GEMINI_API_KEY: ${GEMINI_API_KEY:-}
+      CONTENT_CREATOR_AGENT_MODEL: ${CONTENT_CREATOR_AGENT_MODEL:-gemini-2.5-flash}
+      CONTENT_CREATOR_INTERNAL_TOOLS_BASE_URL: http://product-api:8282/internal/tools
+      CONTENT_CREATOR_INTERNAL_TOOL_TIMEOUT_SECONDS: 60
+      ADK_DISABLE_PROGRESSIVE_SSE_STREAMING: "true"
+    ports:
+      - "8181:8181"
+    depends_on:
+      product-api:
+        condition: service_started
+    command: >
+      python -m uvicorn app.agent_server:app
+      --host 0.0.0.0
+      --port 8181
+
+  web:
+    build:
+      context: ./web
+      args:
+        NEXT_PUBLIC_AGENT_API_BASE_URL: ${NEXT_PUBLIC_AGENT_API_BASE_URL:-http://127.0.0.1:8181}
+        NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://127.0.0.1:8282}
+    container_name: remktagent-web
+    environment:
+      NODE_ENV: production
+      NEXT_PUBLIC_AGENT_API_BASE_URL: ${NEXT_PUBLIC_AGENT_API_BASE_URL:-http://127.0.0.1:8181}
+      NEXT_PUBLIC_API_BASE_URL: ${NEXT_PUBLIC_API_BASE_URL:-http://127.0.0.1:8282}
+    ports:
+      - "3000:3000"
+    depends_on:
+      agent-api:
+        condition: service_started
+
+  rules-service:
+    build:
+      context: ./rules-service
+    container_name: remktagent-rules-service
+    environment:
+      QUARKUS_HTTP_HOST: 0.0.0.0
+      QUARKUS_HTTP_PORT: 8080
+    ports:
+      - "8080:8080"
+
+volumes:
+  api-data:

@@ -1,0 +1,326 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<dmn:definitions xmlns:dmn="http://www.omg.org/spec/DMN/20180521/MODEL/"
+                 xmlns:dmndi="http://www.omg.org/spec/DMN/20180521/DMNDI/"
+                 xmlns:dc="http://www.omg.org/spec/DMN/20180521/DC/"
+                 xmlns:di="http://www.omg.org/spec/DMN/20180521/DI/"
+                 id="claim_risk_definitions"
+                 name="ClaimRisk"
+                 namespace="https://contentcreator/rules/claim-risk"
+                 typeLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/"
+                 expressionLanguage="http://www.omg.org/spec/DMN/20180521/FEEL/">
+  <dmn:itemDefinition id="tProjectFacts" name="tProjectFacts">
+    <dmn:itemComponent id="tProjectFacts_handover_status" name="handover_status">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tProjectFacts_ownership_status" name="ownership_status">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tRiskFlag" name="tRiskFlag">
+    <dmn:itemComponent id="tRiskFlag_category" name="category">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tRiskFlag_severity" name="severity">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tRiskFlag_reason" name="reason">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tRiskFlag_suggested_review_note" name="suggested_review_note">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:itemDefinition id="tClaimRiskOutput" name="tClaimRiskOutput">
+    <dmn:itemComponent id="tClaimRisk_rule_version" name="rule_version">
+      <dmn:typeRef>string</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tClaimRisk_risk_flags" name="risk_flags" isCollection="true">
+      <dmn:typeRef>tRiskFlag</dmn:typeRef>
+    </dmn:itemComponent>
+    <dmn:itemComponent id="tClaimRisk_approval_required" name="approval_required">
+      <dmn:typeRef>boolean</dmn:typeRef>
+    </dmn:itemComponent>
+  </dmn:itemDefinition>
+  <dmn:inputData id="draft_text_input" name="draft_text">
+    <dmn:variable id="draft_text_variable" name="draft_text" typeRef="string"/>
+  </dmn:inputData>
+  <dmn:inputData id="project_facts_input" name="project_facts">
+    <dmn:variable id="project_facts_variable" name="project_facts" typeRef="tProjectFacts"/>
+  </dmn:inputData>
+  <dmn:decision id="discount_risk_flag_decision" name="Discount Risk Flag">
+    <dmn:variable id="discount_risk_flag_variable" name="Discount Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="discount_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="discount_risk_flag_input">
+        <dmn:inputExpression id="discount_risk_flag_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="discount_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="discount_risk_flag_rule_match">
+        <dmn:inputEntry id="discount_risk_flag_rule_match_input">
+          <dmn:text>contains(?, "discount") or contains(?, "% off") or contains(?, "ưu đãi")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="discount_risk_flag_rule_match_output">
+          <dmn:text>{ category: "discount", severity: "medium", reason: "Discount or promotion claim needs offer verification.", suggested_review_note: "Verify promotion terms before approval." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="discount_risk_flag_rule_default">
+        <dmn:inputEntry id="discount_risk_flag_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="discount_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="ownership_risk_flag_decision" name="Ownership Risk Flag">
+    <dmn:variable id="ownership_risk_flag_variable" name="Ownership Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="ownership_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="ownership_risk_flag_input">
+        <dmn:inputExpression id="ownership_risk_flag_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="ownership_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="ownership_risk_flag_rule_match">
+        <dmn:inputEntry id="ownership_risk_flag_rule_match_input">
+          <dmn:text>contains(?, "ownership") or contains(?, "instant ownership") or contains(?, "sổ")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="ownership_risk_flag_rule_match_output">
+          <dmn:text>{ category: "ownership", severity: "high", reason: "Ownership/legal status claim needs factual support.", suggested_review_note: "Confirm legal and ownership documents before approval." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="ownership_risk_flag_rule_default">
+        <dmn:inputEntry id="ownership_risk_flag_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="ownership_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="handover_risk_flag_decision" name="Handover Risk Flag">
+    <dmn:variable id="handover_risk_flag_variable" name="Handover Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#project_facts_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="handover_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="handover_risk_flag_text_input">
+        <dmn:inputExpression id="handover_risk_flag_text_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:input id="handover_risk_flag_fact_input">
+        <dmn:inputExpression id="handover_risk_flag_fact_input_expression" typeRef="string">
+          <dmn:text>project_facts.handover_status</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="handover_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="handover_risk_flag_rule_text">
+        <dmn:inputEntry id="handover_risk_flag_rule_text_input_text">
+          <dmn:text>contains(?, "handover") or contains(?, "bàn giao")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="handover_risk_flag_rule_text_input_fact">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="handover_risk_flag_rule_text_output">
+          <dmn:text>{ category: "handover_timing", severity: "medium", reason: "Handover timing claim needs project schedule support.", suggested_review_note: "Check official handover timeline." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="handover_risk_flag_rule_fact">
+        <dmn:inputEntry id="handover_risk_flag_rule_fact_input_text">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="handover_risk_flag_rule_fact_input_fact">
+          <dmn:text>"planned"</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="handover_risk_flag_rule_fact_output">
+          <dmn:text>{ category: "handover_timing", severity: "medium", reason: "Handover timing claim needs project schedule support.", suggested_review_note: "Check official handover timeline." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="handover_risk_flag_rule_default">
+        <dmn:inputEntry id="handover_risk_flag_rule_default_input_text">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:inputEntry id="handover_risk_flag_rule_default_input_fact">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="handover_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="financing_risk_flag_decision" name="Financing Risk Flag">
+    <dmn:variable id="financing_risk_flag_variable" name="Financing Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="financing_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="financing_risk_flag_input">
+        <dmn:inputExpression id="financing_risk_flag_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="financing_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="financing_risk_flag_rule_match">
+        <dmn:inputEntry id="financing_risk_flag_rule_match_input">
+          <dmn:text>contains(?, "financing") or contains(?, "loan") or contains(?, "vay")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="financing_risk_flag_rule_match_output">
+          <dmn:text>{ category: "financing", severity: "medium", reason: "Financing claim needs lender/program verification.", suggested_review_note: "Verify financing terms." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="financing_risk_flag_rule_default">
+        <dmn:inputEntry id="financing_risk_flag_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="financing_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="rental_yield_risk_flag_decision" name="Rental Yield Risk Flag">
+    <dmn:variable id="rental_yield_risk_flag_variable" name="Rental Yield Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="rental_yield_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="rental_yield_risk_flag_input">
+        <dmn:inputExpression id="rental_yield_risk_flag_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="rental_yield_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="rental_yield_risk_flag_rule_match">
+        <dmn:inputEntry id="rental_yield_risk_flag_rule_match_input">
+          <dmn:text>contains(?, "rental yield") or contains(?, "yield") or contains(?, "cho thuê")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rental_yield_risk_flag_rule_match_output">
+          <dmn:text>{ category: "rental_yield", severity: "high", reason: "Rental yield claim can imply investment performance.", suggested_review_note: "Remove guarantee language or add verified basis." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="rental_yield_risk_flag_rule_default">
+        <dmn:inputEntry id="rental_yield_risk_flag_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="rental_yield_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="investment_potential_risk_flag_decision" name="Investment Potential Risk Flag">
+    <dmn:variable id="investment_potential_risk_flag_variable" name="Investment Potential Risk Flag" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredInput href="#draft_text_input"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="investment_potential_risk_flag_table" hitPolicy="FIRST">
+      <dmn:input id="investment_potential_risk_flag_input">
+        <dmn:inputExpression id="investment_potential_risk_flag_input_expression" typeRef="string">
+          <dmn:text>draft_text</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="investment_potential_risk_flag_output" name="risk_flag" typeRef="tRiskFlag"/>
+      <dmn:rule id="investment_potential_risk_flag_rule_match">
+        <dmn:inputEntry id="investment_potential_risk_flag_rule_match_input">
+          <dmn:text>contains(?, "guaranteed") or contains(?, "cam kết") or contains(?, "profit")</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="investment_potential_risk_flag_rule_match_output">
+          <dmn:text>{ category: "investment_potential", severity: "high", reason: "Guaranteed return or profit claim is risk-sensitive.", suggested_review_note: "Avoid guaranteed investment performance claims." }</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="investment_potential_risk_flag_rule_default">
+        <dmn:inputEntry id="investment_potential_risk_flag_rule_default_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="investment_potential_risk_flag_rule_default_output">
+          <dmn:text>null</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="risk_flags_decision" name="RiskFlags">
+    <dmn:variable id="risk_flags_variable" name="RiskFlags" typeRef="tRiskFlag"/>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#discount_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#ownership_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#handover_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#financing_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#rental_yield_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#investment_potential_risk_flag_decision"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="risk_flags_expression">
+      <dmn:text>[Discount Risk Flag, Ownership Risk Flag, Handover Risk Flag, Financing Risk Flag, Rental Yield Risk Flag, Investment Potential Risk Flag][item != null]</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decision id="approval_required_decision" name="Approval Required">
+    <dmn:variable id="approval_required_variable" name="Approval Required" typeRef="boolean"/>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#risk_flags_decision"/>
+    </dmn:informationRequirement>
+    <dmn:decisionTable id="claim_risk_approval_table" hitPolicy="FIRST">
+      <dmn:input id="claim_risk_approval_input">
+        <dmn:inputExpression id="claim_risk_approval_input_expression" typeRef="number">
+          <dmn:text>count(RiskFlags)</dmn:text>
+        </dmn:inputExpression>
+      </dmn:input>
+      <dmn:output id="claim_risk_approval_output"/>
+      <dmn:rule id="claim_risk_approval_rule_true">
+        <dmn:inputEntry id="claim_risk_approval_rule_true_input">
+          <dmn:text>&gt; 0</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="claim_risk_approval_rule_true_output">
+          <dmn:text>true</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+      <dmn:rule id="claim_risk_approval_rule_false">
+        <dmn:inputEntry id="claim_risk_approval_rule_false_input">
+          <dmn:text>-</dmn:text>
+        </dmn:inputEntry>
+        <dmn:outputEntry id="claim_risk_approval_rule_false_output">
+          <dmn:text>false</dmn:text>
+        </dmn:outputEntry>
+      </dmn:rule>
+    </dmn:decisionTable>
+  </dmn:decision>
+  <dmn:decision id="claim_risk_decision" name="Claim Risk Decision">
+    <dmn:variable id="claim_risk_decision_variable" name="Claim Risk Decision" typeRef="tClaimRiskOutput"/>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#risk_flags_decision"/>
+    </dmn:informationRequirement>
+    <dmn:informationRequirement>
+      <dmn:requiredDecision href="#approval_required_decision"/>
+    </dmn:informationRequirement>
+    <dmn:literalExpression id="claim_risk_expression">
+      <dmn:text>{ rule_version: "claim-risk-v1", risk_flags: RiskFlags, approval_required: Approval Required }</dmn:text>
+    </dmn:literalExpression>
+  </dmn:decision>
+  <dmn:decisionService id="claim_risk_service" name="AssessClaimRisk">
+    <dmn:variable id="claim_risk_service_variable" name="AssessClaimRisk" typeRef="tClaimRiskOutput"/>
+    <dmn:outputDecision href="#claim_risk_decision"/>
+    <dmn:encapsulatedDecision href="#claim_risk_decision"/>
+  </dmn:decisionService>
+</dmn:definitions>

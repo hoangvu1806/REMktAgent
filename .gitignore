@@ -1,0 +1,102 @@
+# ---------------------------------------------------------------------------
+# Dependencies
+# ---------------------------------------------------------------------------
+node_modules/
+web/node_modules/
+
+# ---------------------------------------------------------------------------
+# Next.js / frontend build output
+# ---------------------------------------------------------------------------
+.next/
+out/
+web/.next/
+web/out/
+web/.vercel/
+
+# ---------------------------------------------------------------------------
+# Python
+# ---------------------------------------------------------------------------
+__pycache__/
+*.py[cod]
+*$py.class
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.agents/
+.coverage
+htmlcov/
+
+# Virtual environments
+.venv/
+venv/
+env/
+api/.venv/
+api/venv/
+
+# ---------------------------------------------------------------------------
+# Java / Maven / Quarkus
+# ---------------------------------------------------------------------------
+target/
+rules-service/target/
+.mvn/timing.properties
+
+# ---------------------------------------------------------------------------
+# Local environment files and secrets
+# ---------------------------------------------------------------------------
+.env
+.env.*
+!.env.example
+
+web/.env
+web/.env.local
+web/.env.*.local
+!web/.env.example
+
+api/.env
+api/.env.*
+!api/.env.example
+
+rules-service/.env
+rules-service/.env.*
+
+playground/.env
+playground/.env.*
+playground/**/.env
+playground/**/.env.*
+
+# ---------------------------------------------------------------------------
+# Runtime data
+# ---------------------------------------------------------------------------
+*.sqlite
+*.sqlite3
+*.db
+api/data/*
+!api/data/.gitkeep
+
+# Google ADK local runtime artifacts
+.adk/
+playground/.adk/
+playground/**/.adk/
+
+# ---------------------------------------------------------------------------
+# Logs and diagnostics
+# ---------------------------------------------------------------------------
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+logs/
+
+# ---------------------------------------------------------------------------
+# OS and editor files
+# ---------------------------------------------------------------------------
+.DS_Store
+Thumbs.db
+Desktop.ini
+.idea/
+.vscode/
+*.swp
+*.swo
+
+_bmad
